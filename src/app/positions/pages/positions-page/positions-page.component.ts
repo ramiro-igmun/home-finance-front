@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {map, Observable, of} from "rxjs";
+import {filter, map, Observable, of, shareReplay, startWith} from "rxjs";
 import {Position, PositionType} from "../../model/Position";
 import {PositionHttpService} from "../../services/position-http.service";
 import {MatDialog} from "@angular/material/dialog";
-import {CategoryDialogComponent} from "../../components/category-dialog/category-dialog.component";
+import {Category} from "../../model/Category";
+import {CategoryHttpService} from "../../../category/service/category-http.service";
+import {PositionService} from "../../services/position.service";
 
 @Component({
   selector: 'app-positions-page',
@@ -12,15 +14,25 @@ import {CategoryDialogComponent} from "../../components/category-dialog/category
 })
 export class PositionsPageComponent implements OnInit {
   positions$: Observable<Position[]> = of([]);
-  expenses$: Observable<number> = of(0);
-  income$: Observable<number> = of(0);
+  categories$: Observable<string[]> = of([]);
+  expenses$: Observable<number> = of(1);
+  income$: Observable<number> = of(1);
 
-  constructor(private positionHttpService: PositionHttpService,
-              private dialog: MatDialog) {
+  constructor(private positionService: PositionService,
+              private positionHttpService: PositionHttpService,
+              private categoryHttpService: CategoryHttpService) {
   }
 
   ngOnInit(): void {
-    this.positions$ = this.positionHttpService.getPositions();
+    this.populatePositions();
+    this.categories$ = this.categoryHttpService.getCategories().pipe(
+      map(category => category.map(element => element.tag)),
+      shareReplay(1)
+    );
+  }
+
+  populatePositions() {
+    this.positions$ = this.positionService.positions
     this.expenses$ = this.positions$.pipe(
       map(positions => positions
         .filter(position => position.type == PositionType.EXPENSE)
@@ -37,13 +49,10 @@ export class PositionsPageComponent implements OnInit {
     );
   }
 
-  onSelectCategory(positionId: number) {
-    const dialogRef = this.dialog.open(CategoryDialogComponent,
-      {data: {positionId}});
-    dialogRef.afterClosed().subscribe((category: string) => {
-      if (category?.length) {
-        console.log(category);
-      }
-    });
+  onSelectCategory({category, description}: {category:string , description: string}) {
+    this.positionHttpService.assignCategory({tag: category, description}).subscribe(_ => {
+      this.populatePositions();
+    })
   }
+
 }

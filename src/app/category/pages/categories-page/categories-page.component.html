@@ -1,0 +1,5 @@
+<h1 class="text-2xl">Categories</h1>
+<button mat-button (click)="onAddCategory()">Add Category</button>
+<app-categories-table [categories]="(categories$ | async) || []"
+                      (delete)="onDeleteCategory($event)">
+</app-categories-table>

@@ -1,0 +1,13 @@
+<p class="text-xl">
+  <span class="text-lime-700">
+  Income: {{(balance$ | async)?.income}}
+  </span>
+  <span class="float-right text-red-800">
+  Expense: {{(balance$ | async)?.expense}}
+  </span>
+</p>
+<p class="text-2xl flex bg-amber-200">
+  <span class="flex-1 text-center">
+  Balance: {{(balance$ | async)?.balance}}
+  </span>
+</p>

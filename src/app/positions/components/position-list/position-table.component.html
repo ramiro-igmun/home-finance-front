@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="positions$">
+<table mat-table [dataSource]="positions">
   <ng-container matColumnDef="date">
     <th mat-header-cell *matHeaderCellDef>Date</th>
     <td mat-cell *matCellDef="let element">{{element.date | date}}</td>
@@ -11,18 +11,11 @@
     <th mat-header-cell *matHeaderCellDef>Description</th>
     <td mat-cell *matCellDef="let element">{{element.description}}</td>
   </ng-container>
-  <ng-container matColumnDef="action">
-    <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let element">
-      <button mat-icon-button>
-        <mat-icon color="primary">add</mat-icon>
-      </button>
-    </td>
-  </ng-container>
   <ng-container matColumnDef="category">
     <th mat-header-cell *matHeaderCellDef>Category</th>
     <td mat-cell *matCellDef="let element">
-      {{element.category}}
+      <app-select-autocomplete [options]="categories" [initialValue]="element.category"
+                             (optionSelected)="onCategorySelected($event, element.description)"></app-select-autocomplete>
     </td>
   </ng-container>
   <ng-container matColumnDef="type">

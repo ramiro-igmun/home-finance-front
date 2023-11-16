@@ -1,8 +1,11 @@
-<h1 class="text-4xl">Header</h1>
+<h1 class="text-2xl">Positions</h1>
 <div class="h-screen">
   <div class="h-3/4 overflow-auto">
-    <app-position-table [positions$]="positions$" (selectCategory)="onSelectCategory($event)"></app-position-table>
+      <app-position-table [positions]="(positions$ | async) || []"
+                          [categories]="(categories$ | async) || []"
+                          (categorySelected)="onSelectCategory($event)"></app-position-table>
   </div>
+  <mat-divider></mat-divider>
   <div>
     income: {{income$ | async | number: '1.2-2'}}
     <br>
