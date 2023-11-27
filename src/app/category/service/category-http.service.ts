@@ -17,11 +17,23 @@ export class CategoryHttpService {
     );
   }
 
+  public getByGroupTag(groupTag: string): Observable<Category[]> {
+    const tag = groupTag.replace(/_/g, ' ');
+    return this.httpClient.get<{categories: Category[]}>(`${this.url}/${btoa(tag)}`).pipe(
+      map(response => response.categories)
+    );
+  }
+
   public deleteCategory(tag: string): Observable<void> {
     return this.httpClient.delete<void>(`${this.url}/${btoa(tag)}`);
   }
 
   public createCategory(tag: string): Observable<void> {
     return this.httpClient.post<void>(this.url, {tag});
+  }
+
+  public addSubCategory(groupTag: string, tag: string): Observable<void> {
+    const group = groupTag.replace(/_/g, ' ');
+    return this.httpClient.post<void>(`${this.url}/${btoa(group)}`, {tag});
   }
 }

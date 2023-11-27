@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {CategoryHttpService} from "../../service/category-http.service";
-import {map, Observable, of, shareReplay} from "rxjs";
-import {Category} from "../../../positions/model/Category";
+import {filter, map, Observable, of, shareReplay} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {AddCategoryModalComponent} from "../../components/add-category-modal/add-category-modal.component";
 
@@ -35,10 +34,11 @@ export class CategoriesPageComponent implements OnInit {
 
   onAddCategory() {
     const dialogRef = this.dialog.open(AddCategoryModalComponent);
-    dialogRef.afterClosed().subscribe(result => {
-      this.categoryHttpService.createCategory(result).subscribe(_ =>
-      this.populateTable())
-    });
+    dialogRef.afterClosed().pipe(filter(result => !!result))
+      .subscribe(result => {
+        this.categoryHttpService.createCategory(result).subscribe(_ =>
+          this.populateTable())
+      });
   }
 
 }

@@ -6,6 +6,11 @@
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>Actions</th>
     <td mat-cell *matCellDef="let element">
+      <ng-container *ngIf="detailActive">
+        <button mat-mini-fab [routerLink]="element | replaceSpace" color="primary" class="mr-1">
+          <mat-icon>remove_red_eye</mat-icon>
+        </button>
+      </ng-container>
       <button mat-mini-fab (click)="onDeleteCategory(element)">
         <mat-icon>delete</mat-icon>
       </button>

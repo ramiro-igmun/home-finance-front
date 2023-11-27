@@ -5,11 +5,13 @@ import {PositionsPageComponent} from "./positions/pages/positions-page/positions
 import {MainLayoutComponent} from "./layout/main-layout/main-layout.component";
 import {CategoriesPageComponent} from "./category/pages/categories-page/categories-page.component";
 import {DashboardPageComponent} from "./dashboard/pages/dashboard-page/dashboard-page.component";
+import {SubCategoriesPageComponent} from "./category/pages/sub-categories-page/sub-categories-page.component";
 
 const routes: Routes = [
   {path: 'dashboard', component: DashboardPageComponent},
   {path: 'positions', component: PositionsPageComponent},
   {path: 'categories', component: CategoriesPageComponent},
+  {path: 'categories/:tag', component: SubCategoriesPageComponent},
   {path: '', redirectTo: 'positions', pathMatch: 'full'},
 ];
 

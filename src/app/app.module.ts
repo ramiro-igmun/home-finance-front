@@ -31,6 +31,8 @@ import { SelectPeriodComponent } from './shared/components/select-period/select-
 import {MatSelectModule} from "@angular/material/select";
 import {CdkTableModule} from "@angular/cdk/table";
 import { CategoryExpenseGraphComponent } from './graph/component/category-expense-graph/category-expense-graph.component';
+import { SubCategoriesPageComponent } from './category/pages/sub-categories-page/sub-categories-page.component';
+import { ReplaceSpacePipe } from './shared/pipes/add-underscore.pipe';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import { CategoryExpenseGraphComponent } from './graph/component/category-expens
     PositionListComponent,
     SelectPeriodComponent,
     CategoryExpenseGraphComponent,
+    SubCategoriesPageComponent,
+    ReplaceSpacePipe,
   ],
   imports: [
     BrowserModule,
