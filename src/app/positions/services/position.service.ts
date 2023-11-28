@@ -10,15 +10,18 @@ import {PeriodsService} from "../../shared/services/periods.service";
 })
 export class PositionService {
 
-  private readonly positions$: Observable<Position[]> = of([]);
+  private positions$: Observable<Position[]> = of([]);
 
   constructor(private positionHttpService: PositionHttpService,
               private periodsService: PeriodsService) {
+    this.loadPositions();
+  }
+
+  loadPositions() {
     this.positions$ = this.periodsService.selectedPeriod.pipe(
       switchMap(({start, end}) => this.positionHttpService.getPositions({beginDate: start, endDate: end})),
       filter(positions => !!positions.length),
-      shareReplay(1)
-    );
+      shareReplay(1));
   }
 
   get positions() {

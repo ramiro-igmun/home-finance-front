@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {filter, map, Observable, of, shareReplay, startWith} from "rxjs";
+import {filter, map, Observable, of, shareReplay, startWith, tap} from "rxjs";
 import {Position, PositionType} from "../../model/Position";
 import {PositionHttpService} from "../../services/position-http.service";
 import {MatDialog} from "@angular/material/dialog";
@@ -26,7 +26,7 @@ export class PositionsPageComponent implements OnInit {
   ngOnInit(): void {
     this.populatePositions();
     this.categories$ = this.categoryHttpService.getCategories().pipe(
-      map(category => category.map(element => element.tag)),
+      map(group => group.flatMap(element => element.subCategories)),
       shareReplay(1)
     );
   }
@@ -51,6 +51,7 @@ export class PositionsPageComponent implements OnInit {
 
   onSelectCategory({category, description}: {category:string , description: string}) {
     this.positionHttpService.assignCategory({tag: category, description}).subscribe(_ => {
+      this.positionService.loadPositions();
       this.populatePositions();
     })
   }

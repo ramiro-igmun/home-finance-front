@@ -1,4 +1,4 @@
 export interface Category {
   tag: string;
-  subcategories: string[];
+  subCategories: string[];
 }
