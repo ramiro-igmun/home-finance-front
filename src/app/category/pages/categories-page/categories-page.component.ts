@@ -3,6 +3,7 @@ import {CategoryHttpService} from "../../service/category-http.service";
 import {filter, map, Observable, of, shareReplay} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {AddCategoryModalComponent} from "../../components/add-category-modal/add-category-modal.component";
+import {Category} from "../../../positions/model/Category";
 
 @Component({
   selector: 'app-categories-page',
@@ -11,7 +12,7 @@ import {AddCategoryModalComponent} from "../../components/add-category-modal/add
 })
 export class CategoriesPageComponent implements OnInit {
 
-  categories$: Observable<string[]> = of([]);
+  categories$: Observable<Category[]> = of([]);
 
   constructor(private categoryHttpService: CategoryHttpService,
               private dialog: MatDialog) {
@@ -23,7 +24,6 @@ export class CategoriesPageComponent implements OnInit {
 
   populateTable(): void {
     this.categories$ = this.categoryHttpService.getCategories().pipe(
-      map(category => category.map(element => element.tag)),
       shareReplay(1)
     );
   }
@@ -41,4 +41,7 @@ export class CategoriesPageComponent implements OnInit {
       });
   }
 
+  onColorChange({tag, color}: {tag: string; color: string}) {
+    this.categoryHttpService.changeCategoryColor(tag, color).subscribe(_ => this.populateTable());
+  }
 }

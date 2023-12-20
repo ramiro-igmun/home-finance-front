@@ -20,7 +20,7 @@ export class SelectAutocompleteComponent implements OnInit{
   ngOnInit(): void {
     this.filteredOptions = this.value.valueChanges.pipe(
       startWith(''),
-      map(value => this.options.filter(option => option.toLowerCase().includes(value || '')))
+      map(value => this.options.filter(option => !value || option.toLowerCase().includes(value)))
     );
   }
 

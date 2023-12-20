@@ -1,4 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Category} from "../../../positions/model/Category";
+
 
 @Component({
   selector: 'app-categories-table',
@@ -6,12 +8,17 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
   styleUrls: ['./categories-table.component.scss']
 })
 export class CategoriesTableComponent {
-  @Input() categories: string[] = [];
+  @Input() categories: Category[] = [];
   @Input() detailActive: boolean = true;
   @Output() delete = new EventEmitter<string>();
-  columns = ['tag', 'actions'];
+  @Output() colorChange = new EventEmitter<{tag: string, color: string}>
+  columns = ['tag', 'color', 'actions'];
 
   onDeleteCategory(tag: string) {
     this.delete.emit(tag);
+  }
+
+  onColorChange($event: Event, tag: string) {
+    this.colorChange.emit({tag, color: ($event.target as any).value})
   }
 }

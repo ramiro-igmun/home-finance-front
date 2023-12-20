@@ -18,6 +18,7 @@ export interface PositionFilter {
 export class PositionListComponent {
 
   positions$: Observable<Position[]> = of([]);
+  total$: Observable<number> = of(0);
   displayedColumns = ['date', 'description', 'amount']
   private filter$ = new BehaviorSubject<PositionFilter>({});
 
@@ -35,10 +36,15 @@ export class PositionListComponent {
       )),
       takeUntilDestroyed()
     );
+    this.total$ = this.positions$.pipe(
+      map(positions => positions
+        .map(position => position.amount)
+        .reduce((acc, val) => acc + val, 0))
+    );
   }
 
   private isWithinPeriod(date: string | undefined, position: Position) {
     const period = this.periodService.fromName(date || 'JUNE');
-    return position.date < period.endDate && position.date > period.beginDate;
+    return position.date <= period.endDate && position.date >= period.beginDate;
   }
 }

@@ -4,6 +4,7 @@ import {CategoryHttpService} from "../../service/category-http.service";
 import {MatDialog} from "@angular/material/dialog";
 import {AddCategoryModalComponent} from "../../components/add-category-modal/add-category-modal.component";
 import {ActivatedRoute} from "@angular/router";
+import {Category} from "../../../positions/model/Category";
 
 @Component({
   selector: 'app-sub-categories-page',
@@ -12,7 +13,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class SubCategoriesPageComponent implements OnInit{
 
-  categories$: Observable<string[]> = of([]);
+  categories$: Observable<Category[]> = of([]);
   group: string = "";
 
   constructor(private categoryHttpService: CategoryHttpService,
@@ -27,7 +28,6 @@ export class SubCategoriesPageComponent implements OnInit{
 
   populateTable(tag: string): void {
     this.categories$ = this.categoryHttpService.getByGroupTag(tag).pipe(
-      map(category => category.map(element => element.tag)),
       shareReplay(1)
     );
   }

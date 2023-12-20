@@ -4,6 +4,7 @@ export interface ObjectData {
   datasets: {
     data: {x: string, y: number}[],
     label: string,
-    type: ChartType
+    type: ChartType,
+    backgroundColor?: string,
   }[];
 }

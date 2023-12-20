@@ -1,17 +1,26 @@
 <table mat-table [dataSource]="categories">
   <ng-container matColumnDef="tag">
     <th mat-header-cell *matHeaderCellDef>Tag</th>
-    <td mat-cell *matCellDef="let element">{{element}}</td>
+    <td mat-cell *matCellDef="let element">{{element.tag}}</td>
+  </ng-container>
+  <ng-container matColumnDef="color">
+    <th mat-header-cell *matHeaderCellDef>Tag</th>
+    <td mat-cell *matCellDef="let element">
+      <mat-form-field (change)="onColorChange($event, element.tag)">
+        <mat-label>Color</mat-label>
+        <input matInput type="color" [value]="element.color">
+      </mat-form-field>
+    </td>
   </ng-container>
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>Actions</th>
     <td mat-cell *matCellDef="let element">
       <ng-container *ngIf="detailActive">
-        <button mat-mini-fab [routerLink]="element | replaceSpace" color="primary" class="mr-1">
+        <button mat-mini-fab [routerLink]="element.tag | replaceSpace" color="primary" class="mr-1">
           <mat-icon>remove_red_eye</mat-icon>
         </button>
       </ng-container>
-      <button mat-mini-fab (click)="onDeleteCategory(element)">
+      <button mat-mini-fab (click)="onDeleteCategory(element.tag)">
         <mat-icon>delete</mat-icon>
       </button>
     </td>

@@ -5,8 +5,8 @@ import {GraphHttpService} from "../../services/graph-http.service";
 import {PeriodsService} from "../../../shared/services/periods.service";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {map} from "rxjs";
-import {ChartType} from "chart.js";
-
+import {ChartType, LegendItem} from "chart.js";
+import autocolors from 'chartjs-plugin-autocolors'
 @Component({
   selector: 'app-category-expense-graph',
   templateUrl: './category-expense-graph.component.html',
@@ -31,6 +31,7 @@ export class CategoryExpenseGraphComponent {
       )
       .subscribe(data => {
         this.chart?.destroy();
+        console.log(data);
         this.chart = new Chart('expense',
           {
             type: 'bar',
@@ -50,8 +51,18 @@ export class CategoryExpenseGraphComponent {
                 y: {
                   stacked: true
                 }
+              },
+              plugins: {
+                legend: {
+                  labels: {
+                    font: {
+                      size: 9
+                    },
+                    boxWidth: 10
+                  }
+                }
               }
-            }
+            },
           });
       });
   }

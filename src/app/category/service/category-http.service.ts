@@ -36,4 +36,8 @@ export class CategoryHttpService {
     const group = groupTag.replace(/_/g, ' ');
     return this.httpClient.post<void>(`${this.url}/${btoa(group)}`, {tag});
   }
+
+  public changeCategoryColor(tag: string, color: string): Observable<void> {
+    return this.httpClient.put<void>(this.url, {tag, color});
+  }
 }

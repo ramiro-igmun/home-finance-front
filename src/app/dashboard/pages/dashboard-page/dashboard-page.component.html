@@ -1,19 +1,20 @@
-<div class="grid grid-cols-3 gap-4 h-min p-4">
-  <ng-container *ngIf="!(isMonthPeriod$ | async)">
-    <mat-card class = "col-span-2 h-fit">
-      <app-income-expense-graph (dataFilter)="onDataFilter($event)"></app-income-expense-graph>
-    </mat-card>
-  </ng-container>
-<!--  <span class="grid grid-cols-1">-->
-  <div class="">
-  <mat-card class="p-4 h-fit mb-4">
-    <app-balance class=""></app-balance>
+<mat-card class="p-4 h-fit mx-4">
+  <app-balance class=""></app-balance>
+</mat-card>
+<div class="grid grid-cols-3 gap-4 p-4 graphic-row">
+  <mat-card class="col-span-2 h-fit">
+    <app-income-expense-graph (dataFilter)="onDataFilter($event)"></app-income-expense-graph>
   </mat-card>
-  <mat-card class="p-4 h-96">
-    <app-position-list class="h-full overflow-y-scroll" [filter]="dataFilter"></app-position-list>
+  <!--  <span class="grid grid-cols-1">-->
+  <mat-card style="height: 578px">
+    <mat-card-header>Positions</mat-card-header>
+    <mat-card-content class="overflow-y-scroll" >
+      <app-position-list [filter]="dataFilter"></app-position-list>
+    </mat-card-content>
   </mat-card>
-  </div>
-  <mat-card class = "col-span-2 h-fit">
+</div>
+<div class="grid grid-cols-3 gap-4 px-4 graphic-row">
+  <mat-card class="col-span-2 h-fit">
     <app-category-expense-graph></app-category-expense-graph>
   </mat-card>
 </div>

@@ -1,16 +1,20 @@
-<table cdk-table [dataSource]="positions$" class="text-sm w-full">
+<table cdk-table [dataSource]="positions$" class="text-sm w-full h-full">
   <ng-container cdkColumnDef="date">
     <th cdk-header-cell *cdkHeaderCellDef>Date</th>
     <td cdk-cell *cdkCellDef="let element"> {{element.date | date}} </td>
+    <td cdk-footer-cell *cdkFooterCellDef><strong>Total</strong></td>
   </ng-container>
   <ng-container cdkColumnDef="description">
     <th cdk-header-cell *cdkHeaderCellDef>Description</th>
     <td cdk-cell *cdkCellDef="let element"> {{element.description}} </td>
+    <td cdk-footer-cell *cdkFooterCellDef></td>
   </ng-container>
   <ng-container cdkColumnDef="amount">
     <th cdk-header-cell *cdkHeaderCellDef class="text">Amount</th>
     <td cdk-cell *cdkCellDef="let element" [ngClass]="{'text-red-800': element.amount < 0}"> {{element.amount}} </td>
+    <td cdk-footer-cell *cdkFooterCellDef>{{total$ | async | number: '1.0-2'}}</td>
   </ng-container>
   <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
   <tr cdk-row *cdkRowDef="let row; columns: displayedColumns;"></tr>
+  <tr cdk-footer-row *cdkFooterRowDef="displayedColumns"></tr>
 </table>

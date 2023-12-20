@@ -3,5 +3,6 @@
   <button mat-button (click)="onAddCategory()">Add Group</button>
 </div>
 <app-categories-table [categories]="(categories$ | async) || []"
+                      (colorChange)="onColorChange($event)"
                       (delete)="onDeleteCategory($event)">
 </app-categories-table>
